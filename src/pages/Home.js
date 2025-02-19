@@ -105,14 +105,21 @@ const Home = () => {
         if (confirmation?.toLowerCase() === 'yes') {
             setLoading(true);
 
-            const res = await resetGlobalCounters();
+            const total = await resetGlobalCounters();
     
-            if (res.message === 'Global counters reset successfully!') {
+            if (total.message === 'Global counters reset successfully!') {
                 setOrgyJokes(0);
                 setHitOn(0);
-    
-                await incrementGlobalScore();
             }
+
+            const res = await resetUserCounters(userId);
+
+            if (res.message === 'User counters reset successfully!') {
+                setOrgyJokes(0);
+                setHitOn(0);
+            }
+
+            await incrementGlobalScore();
 
             setLoading(false);
         }
