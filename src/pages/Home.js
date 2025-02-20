@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { incrementScore, getGlobalScore, getUserCounters, resetUserCounters, resetGlobalCounters } from "../services/score";
 import { logout } from "../services/auth";
 import { useNavigate } from "react-router";
+import Sidebar from "../components/Sidebar";
 
 const Home = () => {
     const [orgyJokes, setOrgyJokes] = useState(0);
@@ -132,12 +133,13 @@ const Home = () => {
 
     return (
         <>
-            <Backdrop
-                sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
-                open={loading}
-                >
-                <CircularProgress color="inherit" />
-            </Backdrop>
+          <Sidebar />
+          <Backdrop
+              sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+              open={loading}
+              >
+              <CircularProgress color="inherit" />
+          </Backdrop>
           <Button variant="text" onClick={onLogout} sx={{ position: "absolute", right: 10, top: 10 }}>Logout</Button>
           <Container sx={{ display: 'flex', flexDirection: "column",  alignItems: 'center', justifyContent: 'center', height: '100vh', gap: 6}}>
               <Counter type="Orgy jokes" totalCount={orgyJokes} counterFn={incrementOrgyJokes} />

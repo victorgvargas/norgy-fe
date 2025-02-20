@@ -19,6 +19,20 @@ export const incrementScore = async (userId, category, amount) => {
     }
 };
 
+export const getUsersCounters = async () => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/scores/users`);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error('Failed to fetch users counters:', response.data);
+        }
+    } catch (error) {
+        console.error('Error fetching users counters:', error.message);
+    }
+}
+
 export const getUserCounters = async (userId) => {
     try {
         const response = await axios.post(`${process.env.REACT_APP_API_URL}/scores/user`, {
