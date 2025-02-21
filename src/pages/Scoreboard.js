@@ -26,15 +26,29 @@ const Scoreboard = () => {
                 return user;
             }));
 
-            setUsersScores(res.counters.map(counter => {
+            const mergedScores = res.counters.reduce((acc, counter) => {
                 const user = usersData.find(user => user.userId === counter.userId);
+                const existingUser = acc.find(u => u.userId === counter.userId);
 
-                return {
-                    email: user.email,
-                    hitOn: counter.category === "hitOn" ? counter.counter_value : 0,
-                    orgyJokes: counter.category === "orgyJokes" ? counter.counter_value : 0
-                };
-            }));
+                if (existingUser) {
+                    if (counter.category === "hitOn") {
+                        existingUser.hitOn += counter.counter_value;
+                    } else if (counter.category === "orgyJokes") {
+                        existingUser.orgyJokes += counter.counter_value;
+                    }
+                } else {
+                    acc.push({
+                        userId: counter.userId,
+                        email: user.email,
+                        hitOn: counter.category === "hitOn" ? counter.counter_value : 0,
+                        orgyJokes: counter.category === "orgyJokes" ? counter.counter_value : 0
+                    });
+                }
+
+                return acc;
+            }, []);
+
+            setUsersScores(mergedScores);
 
             setLoading(false);
         };
